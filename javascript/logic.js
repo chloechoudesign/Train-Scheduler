@@ -21,29 +21,18 @@ $(document).ready(function() {
     var tDestination = $('#destination').val().trim();
     var tFirstTime = $('#first-train').val().trim();
     var tFrequency = $('#frequency').val().trim();
+    console.log('Train Name: ' + tName);
+    console.log('Destination: ' + tDestination);
+    console.log('First Train Time: ' + tFirstTime);
+    console.log('Frequency: ' + tFrequency);
+    console.log('------------------------------------');
 
-    // Calculate Minutes Away and Next Arrival
-    var firstTimeConverted = moment(tFirstTime, "HH:mm").subtract(1, "years");
-    console.log(firstTimeConverted);
-
-    var diffTime = moment().diff(moment(firstTimeConverted), 'minutes');
-
-    var tRemainder = diffTime % tFrequency;
-
-    var tMinutesTillTrain = tFrequency - tRemainder;
-    console.log( tMinutesTillTrain + 'minutes away');
-
-    var nextTrain = moment().add(tMinutesTillTrain, "minutes");
-    console.log("ARRIVAL TIME: " + moment(nextTrain).format("HH:mm"));
-
-
-  // Pushing values in the database"
+    // Pushing values in the database
     database.ref().push({
-      trainName: tName,
-      trainDestination: tDestination,
-      trainFrequency: tFrequency,
-      minutesAway: tMinutesTillTrain,
-      nextArrival: nextTrain
+      name: tName,
+      destination: tDestination,
+      first: tFirstTime,
+      frequency: tFrequency,
     });
 
     // Alert
@@ -54,26 +43,59 @@ $(document).ready(function() {
     $('#destination').val('');
     $('#first-train').val('');
     $('#frequency').val('');
+
   });
 
    
-   
   database.ref().on('child_added', function(snapshot){
-      var newRow = $('<tr>');
+
+    // //Calculate Minutes Away and Next Arrival
+    // var currentTime = moment();
+    // var firstTimeConverted = moment(tFirstTime, "HH:mm").subtract(1, "years");
+    // var diffTime = moment().diff(moment(firstTimeConverted), 'minutes');
+    // var tRemainder = diffTime % tFrequency;
+    // var tMinutesTillTrain = tFrequency - tRemainder;
+    // var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+
+    // console.log("Current Time: " + currentTime);
+    // console.log("First Time Converted: " + firstTimeConverted);
+    // console.log("Diff Time: " + diffTime);
+    // console.log("Remainder: " + tRemainder);
+    // console.log("Minutes till Train: " + tMinutesTillTrain);
+    // console.log("Arrival Time: " + moment(nextTrain).format("HH:mm"));
+    // console.log('------------------------------------');
+
+    //Calculate Minutes Away and Next Arrival
+    var firstTrain = snapshot.val().first;
+    var frequencyInMins = snapshot.val().frequency;
+
+    var currentTime = moment();
+    var firstTimeConverted = moment(firstTrain, "HH:mm").subtract(1, "years");
+    var diffTime = moment().diff(moment(firstTimeConverted), 'minutes');
+    var tRemainder = diffTime % frequencyInMins;
+    var tMinutesTillTrain = frequencyInMins - tRemainder;
+    var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+
+    console.log("Current Time: " + currentTime);
+    console.log("First Time Converted: " + firstTimeConverted);
+    console.log("Diff Time: " + diffTime);
+    console.log("Remainder: " + tRemainder);
+    console.log("Minutes till Train: " + tMinutesTillTrain);
+    console.log("Arrival Time: " + moment(nextTrain).format("HH:mm"));
+    console.log('------------------------------------');
+  
+    //Create new rows and append data from firebase
+    var newRow = $('<tr>');
+    newRow.append('<td>'+ snapshot.val().name +'</td');
+    newRow.append('<td>'+ snapshot.val().destination +'</td');
+    newRow.append('<td>'+ snapshot.val().frequency +'</td');
+    newRow.append('<td>'+ moment(nextTrain).format("HH:mm") +'</td');
+    newRow.append('<td>'+ tMinutesTillTrain +'</td');
       
-      newRow.append('<td>'+ snapshot.val().trainName +'</td');
-      newRow.append('<td>'+ snapshot.val().trainDestination +'</td');
-      newRow.append('<td>'+ snapshot.val().trainFrequency +'</td');
-      newRow.append('<td>'+ snapshot.val().minutesAway +'</td');
-      newRow.append('<td>'+ snapshot.val().nextArrival +'</td');
-      
-      $('tbody').append(newRow);
+    $('tbody').append(newRow);
   
   // Handle the errors
   }, function(errorObject) {
       console.log("Errors handled: " + errorObject.code);
   });
-
-  
-
 });
