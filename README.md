@@ -16,8 +16,7 @@
 - Bootstrap
 
 <br/>
-<img width="600" alt="11" src="https://user-images.githubusercontent.com/28972721/37500567-6e9029ca-2887-11e8-808b-33052d020e02.png">
+<img width="600" alt="13" src="https://user-images.githubusercontent.com/28972721/37512020-21e510a4-28be-11e8-94a7-ecba0c803462.png">
 
-<img width="600" alt="12" src="https://user-images.githubusercontent.com/28972721/37500569-708333da-2887-11e8-98c4-7c24cd17043b.png">
 
 
