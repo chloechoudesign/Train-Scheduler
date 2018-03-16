@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <title>Train Schedule</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800|Ubuntu:700" rel="stylesheet">
 
     <!-- jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -22,14 +24,14 @@
 <body>
 <div class="container">
 
-  <div class="jumbotron text-center">
-    <h1>Japan Railways</h1>
-    <p>shinkansen (新幹線)</p>
-  </div>
+  
+    <h1 class="text-center">Shinkansen</h1>
+    <!-- <p>shinkansen (新幹線)</p> -->
+ 
 
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">Current Train Schedule</h3>
+      <h3 class="panel-title">Current Schedule</h3>
     </div>
     <div class="panel-body">
       <table class="table">
@@ -69,11 +71,17 @@
           <label for="frequency">Frequency (min)</label>
           <input class="form-control" type="number" id="frequency">
         </div>
-        <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+        <button type="submit" id="submit">Submit</button>
       </form>
     </div>
   </div>
 
 </div>
+
+  <!-- borders -->
+  <div id="top"></div>
+  <div id="bottom"></div>
+  <div id="left"></div>
+  <div id="right"></div>
 </body>
 </html>
